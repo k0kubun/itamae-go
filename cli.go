@@ -9,7 +9,6 @@ import (
 )
 
 func Run(args []string) int {
-
 	// Meta-option for executables.
 	// It defines output color and its stdout/stderr stream.
 	meta := &command.Meta{
@@ -21,13 +20,13 @@ func Run(args []string) int {
 				ErrorWriter: os.Stderr,
 				Reader:      os.Stdin,
 			},
-		}}
+		},
+	}
 
 	return RunCustom(args, Commands(meta))
 }
 
 func RunCustom(args []string, commands map[string]cli.CommandFactory) int {
-
 	// Get the command line args. We shortcut "--version" and "-v" to
 	// just show the version.
 	for _, arg := range args {
