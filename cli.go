@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/k0kubun/itamae-go/command"
 	"github.com/mitchellh/cli"
-	"github.com/Takashi Kokubun/itamae-go/command"
 )
 
 func Run(args []string) int {
@@ -28,7 +28,7 @@ func Run(args []string) int {
 
 func RunCustom(args []string, commands map[string]cli.CommandFactory) int {
 
-    // Get the command line args. We shortcut "--version" and "-v" to
+	// Get the command line args. We shortcut "--version" and "-v" to
 	// just show the version.
 	for _, arg := range args {
 		if arg == "-v" || arg == "-version" || arg == "--version" {
