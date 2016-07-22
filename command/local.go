@@ -45,7 +45,7 @@ func (c *LocalCommand) Synopsis() string {
 func (c *LocalCommand) Help() string {
 	helpText := `
 Usage:
-  itamae local RECIPE [RECIPE...]
+  itamae-go local RECIPE [RECIPE...]
 
 Options:
   -j, [--node-json=NODE_JSON]
