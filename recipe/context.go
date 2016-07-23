@@ -7,17 +7,21 @@ import (
 )
 
 type EvalContext struct {
+	mrb *mruby.Mrb
 }
 
 func NewContext() *EvalContext {
-	return &EvalContext{}
+	return &EvalContext{
+		mrb: mruby.NewMrb(),
+	}
+}
+
+func (c *EvalContext) Close() {
+	c.mrb.Close()
 }
 
 func (c *EvalContext) LoadRecipe(src string) {
-	mrb := mruby.NewMrb()
-	defer mrb.Close()
-
-	_, err := mrb.LoadString(src)
+	_, err := c.mrb.LoadString(src)
 	if err != nil {
 		log.Fatal(err)
 	}

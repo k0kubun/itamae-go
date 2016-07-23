@@ -38,6 +38,7 @@ func (c *LocalCommand) Run(args []string) int {
 	}
 
 	context := recipe.NewContext()
+	defer context.Close()
 	for _, file := range c.recipes {
 		buf, err := ioutil.ReadFile(file)
 		if err != nil {
