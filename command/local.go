@@ -2,6 +2,7 @@ package command
 
 import (
 	"flag"
+	"log"
 	"strings"
 
 	"github.com/k0kubun/itamae-go/itamae"
@@ -33,6 +34,9 @@ func (c *LocalCommand) Run(args []string) int {
 	for 0 < flags.NArg() {
 		c.recipes = append(c.recipes, flags.Arg(0))
 		flags.Parse(flags.Args()[1:])
+	}
+	if len(c.recipes) == 0 {
+		log.Fatal("Please specify recipe files.")
 	}
 
 	context := recipe.NewContext()
