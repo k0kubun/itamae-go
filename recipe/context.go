@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/k0kubun/itamae-go/recipe/dsl"
+	"github.com/k0kubun/itamae-go/recipe/resource"
 	"github.com/mitchellh/go-mruby"
 )
 
@@ -28,6 +29,10 @@ func (c *EvalContext) LoadRecipe(src string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func (c *EvalContext) Resources() []resource.Resource {
+	return resource.Registered()
 }
 
 func (c *EvalContext) prelude() {

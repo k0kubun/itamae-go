@@ -48,9 +48,9 @@ func (c *LocalCommand) Run(args []string) int {
 	}
 
 	if c.dryRun {
-		itamae.DryRun("dry-run (stubbed)")
+		itamae.DryRun(context.Resources())
 	} else {
-		itamae.Apply("apply (stubbed)")
+		itamae.Apply(context.Resources())
 	}
 	return 0
 }

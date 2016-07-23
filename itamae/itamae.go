@@ -1,13 +1,18 @@
 package itamae
 
-import "fmt"
+import (
+	"fmt"
 
-// TODO: Use itamae-go's internal struct as resources
-func Apply(resources string) {
-	fmt.Println(resources)
+	. "github.com/k0kubun/itamae-go/recipe/resource"
+	"github.com/k0kubun/pp"
+)
+
+func Apply(resources []Resource) {
+	fmt.Println("--- itamae apply (stubbed) ---")
+	pp.Println(resources)
 }
 
-// TODO: Use itamae-go's internal struct as resources
-func DryRun(resources string) {
-	fmt.Println(resources)
+func DryRun(resources []Resource) {
+	fmt.Println("--- itamae dry-run (stubbed) ---")
+	pp.Println(resources)
 }
