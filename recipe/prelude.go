@@ -18,7 +18,6 @@ func defineDSL(mrb *mruby.Mrb) {
 	cRecipe := mrb.DefineClassUnder("Recipe", nil, mItamae)
 	cEvalContext := mrb.DefineClassUnder("EvalContext", nil, cRecipe)
 
-	cEvalContext.DefineMethod("define", dsl.Define, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("directory", dsl.Directory, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("execute", dsl.Execute, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("file", dsl.File, mruby.ArgsReq(1))
@@ -31,7 +30,45 @@ func defineDSL(mrb *mruby.Mrb) {
 	cEvalContext.DefineMethod("service", dsl.Service, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("template", dsl.Template, mruby.ArgsReq(1))
 
-	_, err := mrb.LoadString("ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new")
+	_, err := mrb.LoadString(`
+		module Itamae::Recipe::Define
+		  class DefineContext
+				attr_reader :params
+
+				def initialize(defaults)
+					@params = defaults
+					@attributes = defaults.keys
+				end
+
+				def method_missing(method, *args)
+				  if @attributes.include?(method)
+						if args.length == 1
+							@params[method] = args.first
+						else
+							raise "unexpected #{method} attribute specification: #{args.inspect}"
+						end
+					else
+						super
+					end
+				end
+			end
+
+		  attr_reader :params
+
+			def define(name, options = {}, &define_block)
+			  scope = self
+			  self.class.define_method(name.to_sym) do |name, &arg_block|
+				  context = DefineContext.new(options)
+					context.instance_exec(&arg_block) if arg_block
+					@params = context.params.merge(name: name)
+					scope.instance_exec(&define_block)
+				end
+			end
+		end
+		Itamae::Recipe::EvalContext.prepend(Itamae::Recipe::Define)
+
+		ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new
+	`)
 	assertError(err)
 }
 
@@ -67,7 +104,9 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 						raise "unexpected #{method} attribute specification: #{args.inspect}"
 					end
 				else
-				  super
+					# Show error before super because go-mruby's LoadString crashes on raise...
+					puts "Undefined method '#{method}'"
+					super
 				end
 			end
 		end
