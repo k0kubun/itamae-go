@@ -32,7 +32,7 @@ func (c *RecipeContext) LoadRecipe(file string) {
 	}
 
 	dsl.PushRecipe(file)
-	_, err = c.mrb.LoadString(string(buf))
+	_, err = c.mrb.LoadString("ITAMAE_CONTEXT.instance_exec {" + string(buf) + "}")
 	if err != nil {
 		log.Fatal(err)
 	}
