@@ -2,8 +2,6 @@ package command
 
 import (
 	"flag"
-	"io/ioutil"
-	"log"
 	"strings"
 
 	"github.com/k0kubun/itamae-go/itamae"
@@ -40,11 +38,7 @@ func (c *LocalCommand) Run(args []string) int {
 	context := recipe.NewContext()
 	defer context.Close()
 	for _, file := range c.recipes {
-		buf, err := ioutil.ReadFile(file)
-		if err != nil {
-			log.Fatal(err)
-		}
-		context.LoadRecipe(string(buf))
+		context.LoadRecipe(file)
 	}
 
 	if c.dryRun {
