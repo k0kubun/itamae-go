@@ -2,9 +2,12 @@ package command
 
 import (
 	"flag"
+	"io/ioutil"
+	"log"
 	"strings"
 
-	"github.com/k0kubun/pp"
+	"github.com/k0kubun/itamae-go/itamae"
+	"github.com/k0kubun/itamae-go/recipe"
 )
 
 type LocalCommand struct {
@@ -34,7 +37,20 @@ func (c *LocalCommand) Run(args []string) int {
 		flags.Parse(flags.Args()[1:])
 	}
 
-	pp.Println(c)
+	context := recipe.NewContext()
+	for _, file := range c.recipes {
+		buf, err := ioutil.ReadFile(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+		context.LoadRecipe(string(buf))
+	}
+
+	if c.dryRun {
+		itamae.DryRun("dry-run (stubbed)")
+	} else {
+		itamae.Apply("apply (stubbed)")
+	}
 	return 0
 }
 
