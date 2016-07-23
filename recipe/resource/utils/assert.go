@@ -16,6 +16,8 @@ func typeString(vtype mruby.ValueType) string {
 	switch vtype {
 	case mruby.TypeString:
 		return "String"
+	case mruby.TypeProc:
+		return "Proc"
 	default:
 		return "UnexpectedType"
 	}

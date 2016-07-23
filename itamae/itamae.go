@@ -9,6 +9,9 @@ import (
 
 func Apply(resources []Resource) {
 	fmt.Println("--- itamae apply (stubbed) ---")
+	for _, resource := range resources {
+		resource.Apply()
+	}
 	pp.Println(resources)
 }
 

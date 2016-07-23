@@ -10,8 +10,25 @@ func Package(m *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	args := m.GetArgs()
 	utils.AssertType("name", args[0], mruby.TypeString)
 
-	resource.Register(&resource.Package{
+	pkg := resource.Package{
 		Name: args[0].String(),
-	})
+	}
+
+	parser := utils.NewAttributeParser(m)
+	parser.SetDefaultString("action", "install")
+	if len(args) > 1 {
+		utils.AssertType("block", args[1], mruby.TypeProc)
+		parser.Parse(args[1])
+	}
+
+	pkg.Action = parser.GetArray("action")
+	pkg.User = parser.GetString("user")
+	pkg.Cwd = parser.GetString("cwd")
+	pkg.OnlyIf = parser.GetString("only_if")
+	pkg.NotIf = parser.GetString("not_if")
+	pkg.Version = parser.GetString("version")
+	pkg.Options = parser.GetString("options")
+
+	resource.Register(&pkg)
 	return mruby.Nil, nil
 }
