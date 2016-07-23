@@ -1,19 +1,44 @@
 package dsl
 
 import (
-	"fmt"
+	"io/ioutil"
+	"log"
+	"path/filepath"
 
 	"github.com/k0kubun/itamae-go/recipe/resource/utils"
 	"github.com/mitchellh/go-mruby"
 )
 
-func IncludeRecipe(m *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
-	args := m.GetArgs()
+func IncludeRecipe(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
+	args := mrb.GetArgs()
 	utils.AssertType("path", args[0], mruby.TypeString)
 
-	recipePath := args[0].String()
-	fmt.Println("include_recipe: " + recipePath)
+	recipe := args[0].String()
+	path := recipePath(recipe)
+	PushRecipe(recipe)
+	loadRecipe(mrb, path)
+	PopRecipe()
 	return mruby.Nil, nil
+}
+
+func loadRecipe(mrb *mruby.Mrb, path string) {
+	buf, err := ioutil.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = mrb.LoadString("ITAMAE_CONTEXT.instance_exec {" + string(buf) + "}")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func recipePath(target string) string {
+	dir := "."
+	for _, recipe := range recipeStack {
+		dir = filepath.Join(dir, filepath.Dir(recipe))
+	}
+	return filepath.Join(dir, target)
 }
 
 // FIXME: This should be in recipe.RecipeContext
