@@ -1,7 +1,9 @@
 package recipe
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/mitchellh/go-mruby"
 )
 
 type EvalContext struct {
@@ -12,5 +14,11 @@ func NewContext() *EvalContext {
 }
 
 func (c *EvalContext) LoadRecipe(src string) {
-	fmt.Println(src)
+	mrb := mruby.NewMrb()
+	defer mrb.Close()
+
+	_, err := mrb.LoadString(src)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
