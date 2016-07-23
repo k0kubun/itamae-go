@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/k0kubun/itamae-go/logger"
 	"github.com/k0kubun/itamae-go/recipe/dsl"
 	"github.com/k0kubun/itamae-go/recipe/resource"
 	"github.com/mitchellh/go-mruby"
@@ -31,11 +32,14 @@ func (c *RecipeContext) LoadRecipe(file string) {
 		log.Fatal(err)
 	}
 
+	logger.Info("Recipe: " + file)
 	dsl.PushRecipe(file)
-	_, err = c.mrb.LoadString("ITAMAE_CONTEXT.instance_exec {" + string(buf) + "}")
-	if err != nil {
-		log.Fatal(err)
-	}
+	logger.WithIndent(func() {
+		_, err = c.mrb.LoadString("ITAMAE_CONTEXT.instance_exec {" + string(buf) + "}")
+		if err != nil {
+			log.Fatal(err)
+		}
+	})
 	dsl.PopRecipe()
 }
 

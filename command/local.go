@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/k0kubun/itamae-go/itamae"
+	"github.com/k0kubun/itamae-go/logger"
 	"github.com/k0kubun/itamae-go/recipe"
 )
 
@@ -38,11 +39,15 @@ func (c *LocalCommand) Run(args []string) int {
 	if len(c.recipes) == 0 {
 		log.Fatal("Please specify recipe files.")
 	}
+	logger.Info("Starting itamae...")
 
 	context := recipe.NewContext()
 	defer context.Close()
 	for _, file := range c.recipes {
-		context.LoadRecipe(file)
+		logger.Info("Recipe: " + file)
+		logger.WithIndent(func() {
+			context.LoadRecipe(file)
+		})
 	}
 
 	if c.dryRun {

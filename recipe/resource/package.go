@@ -1,8 +1,7 @@
 package resource
 
 import (
-	"fmt"
-
+	"github.com/k0kubun/itamae-go/logger"
 	. "github.com/k0kubun/itamae-go/recipe/resource/utils"
 	"github.com/k0kubun/itamae-go/specinfra"
 )
@@ -21,9 +20,11 @@ type Package struct {
 
 func (p *Package) Apply() {
 	if Execute(specinfra.CheckPackageIsInstalled(p.Name, p.Version)) {
-		fmt.Println("Skip installation:", p.Name)
+		logger.Debug("package[" + p.Name + "] will not change")
 	} else {
-		fmt.Println("Install:", p.Name)
-		Execute(specinfra.Install(p.Name, p.Version, p.Options))
+		logger.Color(logger.Green, func() {
+			logger.Info("package[" + p.Name + "] will change")
+		})
+		Run(specinfra.Install(p.Name, p.Version, p.Options))
 	}
 }
