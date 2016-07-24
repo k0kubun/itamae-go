@@ -6,6 +6,8 @@ import (
 
 type File struct {
 	Action []string
+	User   string
+	Cwd    string
 	OnlyIf string
 	NotIf  string
 
