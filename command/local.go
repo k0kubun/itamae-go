@@ -20,26 +20,12 @@ type LocalCommand struct {
 }
 
 func (c *LocalCommand) Run(args []string) int {
-	flags := flag.NewFlagSet("itamae-go", flag.ContinueOnError)
-
-	flags.BoolVar(&c.dryRun, "n", false, "Dry run")
-	flags.BoolVar(&c.dryRun, "dry-run", false, "Dry run")
-	flags.StringVar(&c.nodeJson, "j", "", "Node JSON")
-	flags.StringVar(&c.nodeJson, "node-json", "", "Node JSON")
-	flags.StringVar(&c.logLevel, "l", "", "Log level")
-	flags.StringVar(&c.logLevel, "log-level", "", "Log level")
-
-	if err := flags.Parse(args); err != nil {
+	err := c.parseArgs(args)
+	if err != nil {
 		return 1
 	}
-	for 0 < flags.NArg() {
-		c.recipes = append(c.recipes, flags.Arg(0))
-		flags.Parse(flags.Args()[1:])
-	}
-	if len(c.recipes) == 0 {
-		log.Fatal("Please specify recipe files.")
-	}
 	logger.Info("Starting itamae...")
+	logger.SetLogLevel(c.logLevel)
 
 	context := recipe.NewContext()
 	defer context.Close()
@@ -56,6 +42,29 @@ func (c *LocalCommand) Run(args []string) int {
 		itamae.Apply(context.Resources())
 	}
 	return 0
+}
+
+func (c *LocalCommand) parseArgs(args []string) error {
+	flags := flag.NewFlagSet("itamae-go", flag.ContinueOnError)
+
+	flags.BoolVar(&c.dryRun, "n", false, "Dry run")
+	flags.BoolVar(&c.dryRun, "dry-run", false, "Dry run")
+	flags.StringVar(&c.nodeJson, "j", "", "Node JSON")
+	flags.StringVar(&c.nodeJson, "node-json", "", "Node JSON")
+	flags.StringVar(&c.logLevel, "l", "", "Log level")
+	flags.StringVar(&c.logLevel, "log-level", "", "Log level")
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+	for 0 < flags.NArg() {
+		c.recipes = append(c.recipes, flags.Arg(0))
+		flags.Parse(flags.Args()[1:])
+	}
+	if len(c.recipes) == 0 {
+		log.Fatal("Please specify recipe files.")
+	}
+	return nil
 }
 
 func (c *LocalCommand) Synopsis() string {

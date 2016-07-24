@@ -2,54 +2,57 @@ package logger
 
 import (
 	"fmt"
+	"log"
 	"strings"
 )
 
-const Clear uint16 = 1 << 15
-
 const (
-	_ uint16 = iota
-	Black
-	Red
-	Green
-	Yellow
-	Blue
-	Magenta
-	Cyan
-	White
-	fgOffset = 30 - 1
+	DEBUG = iota
+	INFO
+	WARN
+	ERROR
+	FATAL
+	UNKNOWN
 )
 
 var (
-	defaultColor = Clear
-	indentLevel  = 0
+	indentLevel = 0
+	logLevel    = INFO
 )
 
 func Info(msg string) {
-	lines := indentLines(msg)
-	for _, line := range lines {
-		fmt.Println(colorize(Clear, " INFO : "+line))
+	if logLevel <= INFO {
+		lines := indentLines(msg)
+		for _, line := range lines {
+			fmt.Println(colorize(Clear, " INFO : "+line))
+		}
 	}
 }
 
 func Warn(msg string) {
-	lines := indentLines(msg)
-	for _, line := range lines {
-		fmt.Println(colorize(Magenta, " WARN : "+line))
+	if logLevel <= WARN {
+		lines := indentLines(msg)
+		for _, line := range lines {
+			fmt.Println(colorize(Magenta, " WARN : "+line))
+		}
 	}
 }
 
 func Error(msg string) {
-	lines := indentLines(msg)
-	for _, line := range lines {
-		fmt.Println(colorize(Red, "ERROR : "+line))
+	if logLevel <= ERROR {
+		lines := indentLines(msg)
+		for _, line := range lines {
+			fmt.Println(colorize(Red, "ERROR : "+line))
+		}
 	}
 }
 
 func Debug(msg string) {
-	lines := indentLines(msg)
-	for _, line := range lines {
-		fmt.Println(colorize(Clear, "DEBUG : "+line))
+	if logLevel <= DEBUG {
+		lines := indentLines(msg)
+		for _, line := range lines {
+			fmt.Println(colorize(Clear, "DEBUG : "+line))
+		}
 	}
 }
 
@@ -66,6 +69,30 @@ func WithIndent(fn func()) {
 	indentLevel--
 }
 
+func SetLogLevel(level string) {
+	if len(level) == 0 {
+		logLevel = INFO
+		return
+	}
+
+	switch strings.ToLower(level) {
+	case "debug":
+		logLevel = DEBUG
+	case "info":
+		logLevel = INFO
+	case "warn":
+		logLevel = WARN
+	case "error":
+		logLevel = ERROR
+	case "fatal":
+		logLevel = FATAL
+	case "unknown":
+		logLevel = UNKNOWN
+	default:
+		log.Fatal("unexpected log level: ", level)
+	}
+}
+
 func indentLines(str string) []string {
 	indent := ""
 	for i := 0; i < indentLevel; i++ {
@@ -78,15 +105,4 @@ func indentLines(str string) []string {
 		ret = append(ret, indent+line)
 	}
 	return ret
-}
-
-func colorize(color uint16, msg string) string {
-	if color == Clear {
-		if defaultColor == Clear {
-			return msg
-		} else {
-			color = defaultColor
-		}
-	}
-	return fmt.Sprintf("\033[%dm%s\033[0m", fgOffset+color, msg)
 }
