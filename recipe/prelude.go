@@ -29,9 +29,7 @@ func defineDSL(mrb *mruby.Mrb) {
 	cEvalContext.DefineMethod("link", dsl.Link, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("package", dsl.Package, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("remote_file", dsl.RemoteFile, mruby.ArgsReq(1))
-	cEvalContext.DefineMethod("run_command", dsl.RunCommand, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("service", dsl.Service, mruby.ArgsReq(1))
-	cEvalContext.DefineMethod("template", dsl.Template, mruby.ArgsReq(1))
 
 	_, err := mrb.LoadString("ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new")
 	assertError(err)

@@ -14,4 +14,5 @@ func DryRun(resources []Resource) {
 	for _, resource := range resources {
 		resource.DryRun()
 	}
+	pp(resources)
 }
