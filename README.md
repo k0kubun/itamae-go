@@ -1,7 +1,11 @@
 # itamae-go
 
 itamae-go is Go implementation of [itamae](https://github.com/itamae-kitchen/itamae) embedding mruby, which is a lightweight configuration management tool inspired by Chef.
-You can write a configuration recipe in Ruby and apply it without Ruby!
+You can write a configuration recipe in Ruby and apply it without Ruby.
+
+## Status
+
+Experimental. Internal architecture is poor and some features are omitted.
 
 ## How to write recipes
 
