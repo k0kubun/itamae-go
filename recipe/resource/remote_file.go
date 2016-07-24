@@ -22,3 +22,8 @@ type RemoteFile struct {
 func (r *RemoteFile) Apply() {
 	logger.Debug("remote_file[" + r.Path + "] will not change")
 }
+
+func (r *RemoteFile) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("remote_file[" + r.Path + "] will be applied")
+}

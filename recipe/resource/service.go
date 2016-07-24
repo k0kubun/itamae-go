@@ -18,3 +18,8 @@ type Service struct {
 func (s *Service) Apply() {
 	logger.Debug("file[" + s.Name + "] will not change")
 }
+
+func (s *Service) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("file[" + s.Name + "] will be applied")
+}

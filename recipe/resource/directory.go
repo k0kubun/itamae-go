@@ -20,3 +20,8 @@ type Directory struct {
 func (d *Directory) Apply() {
 	logger.Debug("directory[" + d.Path + "] will not change")
 }
+
+func (d *Directory) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("directory[" + d.Path + "] will be applied")
+}

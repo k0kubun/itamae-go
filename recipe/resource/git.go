@@ -20,3 +20,8 @@ type Git struct {
 func (g *Git) Apply() {
 	logger.Debug("git[" + g.Destination + "] will not change")
 }
+
+func (g *Git) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("git[" + g.Destination + "] will be applied")
+}

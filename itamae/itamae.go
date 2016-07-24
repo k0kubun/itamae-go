@@ -1,7 +1,6 @@
 package itamae
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
 	. "github.com/k0kubun/itamae-go/recipe/resource"
 )
 
@@ -12,5 +11,7 @@ func Apply(resources []Resource) {
 }
 
 func DryRun(resources []Resource) {
-	logger.Info("itamae dry-run (stubbed)")
+	for _, resource := range resources {
+		resource.DryRun()
+	}
 }

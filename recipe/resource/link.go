@@ -19,3 +19,8 @@ type Link struct {
 func (l *Link) Apply() {
 	logger.Debug("link[" + l.Link + "] will not change")
 }
+
+func (l *Link) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("link[" + l.Link + "] will be applied")
+}

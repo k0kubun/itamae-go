@@ -21,3 +21,8 @@ type File struct {
 func (f *File) Apply() {
 	logger.Debug("file[" + f.Path + "] will not change")
 }
+
+func (f *File) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("file[" + f.Path + "] will be applied")
+}

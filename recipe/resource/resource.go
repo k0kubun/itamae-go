@@ -2,6 +2,7 @@ package resource
 
 type Resource interface {
 	Apply()
+	DryRun()
 }
 
 var resources = make([]Resource, 0)

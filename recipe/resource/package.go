@@ -28,3 +28,8 @@ func (p *Package) Apply() {
 		utils.Run(specinfra.Install(p.Name, p.Version, p.Options))
 	}
 }
+
+func (p *Package) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("package[" + p.Name + "] will be applied")
+}

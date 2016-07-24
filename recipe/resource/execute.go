@@ -17,3 +17,8 @@ type Execute struct {
 func (e *Execute) Apply() {
 	logger.Debug("execute[" + e.Command + "] will not change")
 }
+
+func (e *Execute) DryRun() {
+	// TODO: do some checks...
+	logger.Debug("execute[" + e.Command + "] will be applied")
+}
