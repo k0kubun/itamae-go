@@ -117,6 +117,10 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				version
 				options
 				source
+				content
+				mode
+				owner
+				group
 			]
 
 		  def initialize(*)
@@ -148,10 +152,16 @@ func defineTemplateResource(mrb *mruby.Mrb) {
 			def template(name, &block)
 			  context = Itamae::Resource::Base::EvalContext.new
 				context.instance_exec(&block)
-				source = context.attributes.delete(:source)
-				attrs = context.attributes
+				src_file = context.attributes.delete(:source)
+				raise "source must be specified for template" if src_file.nil?
+
+				# We should read path relative from recipe and pass variables as binding
+				raise "template source not found (currently it's not relative path from recipe)" unless File.exist?(src_file)
+				erb_result = ERB.new(File.read(src_file)).result
+				attrs      = context.attributes
 
 			  file name do
+				  content erb_result
 				  attrs.each do |key, value|
 						send(key, value)
 					end

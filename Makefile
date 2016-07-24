@@ -1,5 +1,6 @@
 MRUBY_COMMIT ?= 1.2.0
 GO_MRUBY_DIR := "../../mitchellh/go-mruby"
+.PHONY: all itamae-go clean
 
 all: itamae-go
 
@@ -35,5 +36,3 @@ ${GO_MRUBY_DIR}/vendor/mruby/build/host/lib/libmruby.a:
 	if [ ! -e ${GO_MRUBY_DIR}/libmruby.a ]; then \
 	  cd ${GO_MRUBY_DIR} && MRUBY_COMMIT=${MRUBY_COMMIT} MRUBY_CONFIG=../../../../k0kubun/itamae-go/build_config.rb ${MAKE} ; \
 	fi
-
-.PHONY: all clean libmruby.a test
