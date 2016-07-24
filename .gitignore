@@ -1,4 +1,5 @@
 *.test
 itamae-go
-libmruby.a
+*.a
 vendor
+O_MRUBY_DIR
