@@ -1,4 +1,3 @@
-*.rb
 *.test
 itamae-go
 libmruby.a
