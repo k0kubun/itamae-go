@@ -22,6 +22,8 @@ func File(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	}
 
 	file.Action = parser.GetArray("action")
+	file.User = parser.GetString("user")
+	file.Cwd = parser.GetString("cwd")
 	file.OnlyIf = parser.GetString("only_if")
 	file.NotIf = parser.GetString("not_if")
 	file.Content = parser.GetString("content")

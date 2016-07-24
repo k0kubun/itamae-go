@@ -119,6 +119,9 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				mode
 				owner
 				group
+				repository
+				revision
+				recursive
 			]
 
 		  def initialize(*)
