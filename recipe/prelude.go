@@ -10,8 +10,10 @@ import (
 // Define Ruby modules to execute itamae recipes
 func prelude(mrb *mruby.Mrb) {
 	defineDSL(mrb)
+	defineDefine(mrb)
 	defineNode(mrb)
 	defineResourceEvalContext(mrb)
+	defineTemplateResource(mrb)
 }
 
 func defineDSL(mrb *mruby.Mrb) {
@@ -31,6 +33,11 @@ func defineDSL(mrb *mruby.Mrb) {
 	cEvalContext.DefineMethod("service", dsl.Service, mruby.ArgsReq(1))
 	cEvalContext.DefineMethod("template", dsl.Template, mruby.ArgsReq(1))
 
+	_, err := mrb.LoadString("ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new")
+	assertError(err)
+}
+
+func defineDefine(mrb *mruby.Mrb) {
 	_, err := mrb.LoadString(`
 		module Itamae::Recipe::Define
 		  class DefineContext
@@ -67,8 +74,6 @@ func defineDSL(mrb *mruby.Mrb) {
 			end
 		end
 		Itamae::Recipe::EvalContext.prepend(Itamae::Recipe::Define)
-
-		ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new
 	`)
 	assertError(err)
 }
@@ -111,6 +116,7 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				not_if
 				version
 				options
+				source
 			]
 
 		  def initialize(*)
@@ -132,6 +138,27 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				end
 			end
 		end
+	`)
+	assertError(err)
+}
+
+func defineTemplateResource(mrb *mruby.Mrb) {
+	_, err := mrb.LoadString(`
+		module Itamae::Recipe::TemplateResource
+			def template(name, &block)
+			  context = Itamae::Resource::Base::EvalContext.new
+				context.instance_exec(&block)
+				source = context.attributes.delete(:source)
+				attrs = context.attributes
+
+			  file name do
+				  attrs.each do |key, value|
+						send(key, value)
+					end
+				end
+			end
+		end
+		Itamae::Recipe::EvalContext.prepend(Itamae::Recipe::TemplateResource)
 	`)
 	assertError(err)
 }
