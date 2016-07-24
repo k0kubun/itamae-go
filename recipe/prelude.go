@@ -122,6 +122,7 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				repository
 				revision
 				recursive
+				to
 			]
 
 		  def initialize(*)
