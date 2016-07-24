@@ -5,6 +5,7 @@ GO_MRUBY_DIR := "../../mitchellh/go-mruby"
 all: itamae-go
 
 itamae-go: libmruby.a ${GO_MRUBY_DIR}/libmruby.a
+	go get github.com/mitchellh/cli
 	go build
 
 clean:

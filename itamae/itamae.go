@@ -6,7 +6,6 @@ import (
 )
 
 func Apply(resources []Resource) {
-	pp(resources)
 	for _, resource := range resources {
 		resource.Apply()
 	}
