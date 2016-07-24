@@ -16,7 +16,7 @@ See [itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
 You can use only the features listed below.
 
 - Resources
-  - [ ] execute resource
+  - [x] execute resource
   - [ ] package resource
   - [ ] directory resource
   - [ ] git resource
