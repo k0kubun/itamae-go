@@ -14,7 +14,7 @@ libmruby.a: vendor/mruby/build/host/lib/libmruby.a
 	cp vendor/mruby/build/host/lib/libmruby.a .
 
 vendor/mruby/build/host/lib/libmruby.a: vendor/mruby
-	cd vendor/mruby && ${MAKE}
+	cd vendor/mruby && MRUBY_CONFIG=../../build_config.rb ${MAKE}
 
 vendor/mruby:
 	mkdir -p vendor
