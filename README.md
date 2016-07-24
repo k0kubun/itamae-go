@@ -22,7 +22,7 @@ You can use only the features listed below.
   - [ ] git resource
   - [ ] file resource
   - [ ] remote\_file resource
-  - [ ] template resource
+  - [x] template resource
   - [ ] link resource
   - [ ] service resource
   - [ ] user resource

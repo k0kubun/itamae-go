@@ -1,5 +1,3 @@
-include_recipe 'tmux.rb'
-
 define :vim, options: '--with-lua --with-luajit' do
   ver  = params[:name]
   opts = params[:options]
