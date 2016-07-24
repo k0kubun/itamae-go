@@ -6,15 +6,15 @@ import (
 	"github.com/mitchellh/go-mruby"
 )
 
-func Package(m *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
-	args := m.GetArgs()
+func Package(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
+	args := mrb.GetArgs()
 	utils.AssertType("name", args[0], mruby.TypeString)
 
 	pkg := resource.Package{
 		Name: args[0].String(),
 	}
 
-	parser := utils.NewAttributeParser(m)
+	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "install")
 	if len(args) > 1 {
 		utils.AssertType("block", args[1], mruby.TypeProc)
