@@ -38,6 +38,13 @@ You can use only the features listed below.
 - [ ] Host Inventory
 - [ ] Plugins
 
+### Supported platforms
+
+- Arch Linux
+- Debian
+- OSX
+- Ubuntu
+
 ## Contribution
 
 1. Fork ([https://github.com/k0kubun/itamae-go/fork](https://github.com/k0kubun/itamae-go/fork))

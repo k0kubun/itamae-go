@@ -17,6 +17,8 @@ func Platform() string {
 		return "darwin"
 	} else if execute("ls /etc/arch-release") {
 		return "arch"
+	} else if execute("ls /etc/debian_version") {
+		return "debian"
 	} else {
 		panic("Sorry, this distribution is not supported yet.")
 	}
