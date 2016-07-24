@@ -10,6 +10,7 @@ import (
 // Define Ruby modules to execute itamae recipes
 func prelude(mrb *mruby.Mrb) {
 	defineDSL(mrb)
+	defineNode(mrb)
 	defineResourceEvalContext(mrb)
 }
 
@@ -68,6 +69,27 @@ func defineDSL(mrb *mruby.Mrb) {
 		Itamae::Recipe::EvalContext.prepend(Itamae::Recipe::Define)
 
 		ITAMAE_CONTEXT = Itamae::Recipe::EvalContext.new
+	`)
+	assertError(err)
+}
+
+func defineNode(mrb *mruby.Mrb) {
+	_, err := mrb.LoadString(`
+		module Itamae::NodeLoader
+		  def self.load_json(json)
+			  @node = JSON.load(json)
+			end
+
+			def self.loaded_node
+			  @node
+			end
+		end
+
+		Kernel.class_eval do
+		  def node
+		    Itamae::NodeLoader.loaded_node || {}
+		  end
+		end
 	`)
 	assertError(err)
 }

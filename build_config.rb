@@ -18,7 +18,7 @@ MRuby::Build.new do |conf|
   # conf.gem 'examples/mrbgems/c_and_ruby_extension_example'
   # conf.gem :github => 'masuidrive/mrbgems-example', :checksum_hash => '76518e8aecd131d047378448ac8055fa29d974a9'
   # conf.gem :git => 'git@github.com:masuidrive/mrbgems-example.git', :branch => 'master', :options => '-v'
-  conf.gem mgem: 'json'
+  conf.gem mgem: 'iijson'
 
   # include the default GEMs
   conf.gembox 'default'

@@ -2,7 +2,6 @@ package recipe
 
 import (
 	"io/ioutil"
-	"log"
 
 	"github.com/k0kubun/itamae-go/logger"
 	"github.com/k0kubun/itamae-go/recipe/dsl"
@@ -26,19 +25,30 @@ func (c *RecipeContext) Close() {
 	c.mrb.Close()
 }
 
+func (c *RecipeContext) LoadJson(file string) {
+	if len(file) == 0 {
+		return
+	}
+
+	jsonBuf, err := ioutil.ReadFile(file)
+	assertError(err)
+
+	loader, err := c.mrb.LoadString("Itamae::NodeLoader")
+	assertError(err)
+
+	_, err = loader.Call("load_json", c.mrb.StringValue(string(jsonBuf)))
+	assertError(err)
+}
+
 func (c *RecipeContext) LoadRecipe(file string) {
 	buf, err := ioutil.ReadFile(file)
-	if err != nil {
-		log.Fatal(err)
-	}
+	assertError(err)
 
 	logger.Info("Recipe: " + file)
 	dsl.PushRecipe(file)
 	logger.WithIndent(func() {
 		_, err = c.mrb.LoadString("ITAMAE_CONTEXT.instance_exec {" + string(buf) + "}")
-		if err != nil {
-			log.Fatal(err)
-		}
+		assertError(err)
 	})
 	dsl.PopRecipe()
 }

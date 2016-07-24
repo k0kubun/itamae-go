@@ -29,6 +29,8 @@ func (c *LocalCommand) Run(args []string) int {
 
 	context := recipe.NewContext()
 	defer context.Close()
+
+	context.LoadJson(c.nodeJson)
 	for _, file := range c.recipes {
 		logger.Info("Recipe: " + file)
 		logger.WithIndent(func() {
