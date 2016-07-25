@@ -5,12 +5,7 @@ import (
 )
 
 type File struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Path    string
 	Content string
 	Mode    string
@@ -23,6 +18,7 @@ func (f *File) Apply() {
 }
 
 func (f *File) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("file[" + f.Path + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(f.Resource + " executed will change from 'false' to 'true'")
+	})
 }

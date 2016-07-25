@@ -5,12 +5,7 @@ import (
 )
 
 type Directory struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Path  string
 	Mode  string
 	Owner string
@@ -18,10 +13,11 @@ type Directory struct {
 }
 
 func (d *Directory) Apply() {
-	logger.Debug("directory[" + d.Path + "] will not change")
+	logger.Debug("directory[" + d.Path + "] exist will change from 'false' to 'true'")
 }
 
 func (d *Directory) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("directory[" + d.Path + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(d.Resource + " executed will change from 'false' to 'true'")
+	})
 }

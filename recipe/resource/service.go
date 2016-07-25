@@ -5,12 +5,7 @@ import (
 )
 
 type Service struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Name     string
 	Provider string
 }
@@ -20,6 +15,7 @@ func (s *Service) Apply() {
 }
 
 func (s *Service) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("file[" + s.Name + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(s.Resource + " executed will change from 'false' to 'true'")
+	})
 }

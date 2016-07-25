@@ -13,6 +13,7 @@ func Service(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	srv := resource.Service{
 		Name: args[0].String(),
 	}
+	srv.Resource = "service[" + srv.Name + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "create")

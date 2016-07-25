@@ -13,6 +13,7 @@ func Link(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	link := resource.Link{
 		Link: args[0].String(),
 	}
+	link.Resource = "link[" + link.Link + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "create")

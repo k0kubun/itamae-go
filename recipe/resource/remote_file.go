@@ -5,12 +5,7 @@ import (
 )
 
 type RemoteFile struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Path    string
 	Content string
 	Mode    string
@@ -24,6 +19,7 @@ func (r *RemoteFile) Apply() {
 }
 
 func (r *RemoteFile) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("remote_file[" + r.Path + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(r.Resource + " executed will change from 'false' to 'true'")
+	})
 }

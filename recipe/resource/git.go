@@ -5,12 +5,7 @@ import (
 )
 
 type Git struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Destination string
 	Repository  string
 	Revision    string
@@ -22,6 +17,7 @@ func (g *Git) Apply() {
 }
 
 func (g *Git) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("git[" + g.Destination + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(g.Resource + " executed will change from 'false' to 'true'")
+	})
 }

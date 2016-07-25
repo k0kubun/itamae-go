@@ -5,12 +5,7 @@ import (
 )
 
 type Link struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Link  string
 	To    string
 	Force string
@@ -21,6 +16,7 @@ func (l *Link) Apply() {
 }
 
 func (l *Link) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("link[" + l.Link + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(l.Resource + " executed will change from 'false' to 'true'")
+	})
 }

@@ -13,6 +13,7 @@ func Directory(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) 
 	dir := resource.Directory{
 		Path: args[0].String(),
 	}
+	dir.Resource = "directory[" + dir.Path + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "create")

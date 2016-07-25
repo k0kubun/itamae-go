@@ -6,13 +6,16 @@ import (
 
 func Apply(resources []Resource) {
 	for _, resource := range resources {
-		resource.Apply()
+		if !resource.ShouldSkip() {
+			resource.Apply()
+		}
 	}
 }
 
 func DryRun(resources []Resource) {
 	for _, resource := range resources {
-		resource.DryRun()
+		if !resource.ShouldSkip() {
+			resource.DryRun()
+		}
 	}
-	pp(resources)
 }

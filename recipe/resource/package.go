@@ -7,12 +7,7 @@ import (
 )
 
 type Package struct {
-	Action []string
-	User   string
-	Cwd    string
-	OnlyIf string
-	NotIf  string
-
+	Base
 	Name    string
 	Version string
 	Options string
@@ -30,6 +25,7 @@ func (p *Package) Apply() {
 }
 
 func (p *Package) DryRun() {
-	// TODO: do some checks...
-	logger.Debug("package[" + p.Name + "] will be applied")
+	logger.Color(logger.Green, func() {
+		logger.Info(p.Resource + " executed will change from 'false' to 'true'")
+	})
 }

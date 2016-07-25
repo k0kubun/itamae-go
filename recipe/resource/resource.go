@@ -3,6 +3,7 @@ package resource
 type Resource interface {
 	Apply()
 	DryRun()
+	ShouldSkip() bool
 }
 
 var resources = make([]Resource, 0)

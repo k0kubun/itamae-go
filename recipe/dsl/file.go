@@ -13,6 +13,7 @@ func File(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	file := resource.File{
 		Path: args[0].String(),
 	}
+	file.Resource = "file[" + file.Path + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "create")

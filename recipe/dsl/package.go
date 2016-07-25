@@ -13,6 +13,7 @@ func Package(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	pkg := resource.Package{
 		Name: args[0].String(),
 	}
+	pkg.Resource = "package[" + pkg.Name + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "install")

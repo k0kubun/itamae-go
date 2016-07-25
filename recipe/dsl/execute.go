@@ -13,6 +13,7 @@ func Execute(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	exec := resource.Execute{
 		Command: args[0].String(),
 	}
+	exec.Resource = "execute[" + exec.Command + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "run")
