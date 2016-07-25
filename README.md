@@ -19,7 +19,7 @@ You can use only the features listed below.
   - [x] execute resource
   - [x] package resource
   - [x] directory resource
-  - [ ] git resource
+  - [x] git resource
   - [ ] file resource
   - [ ] remote\_file resource
   - [x] template resource

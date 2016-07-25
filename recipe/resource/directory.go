@@ -29,15 +29,22 @@ func (d *Directory) actionCreate() {
 }
 
 func (d *Directory) actionDelete() {
-	// XXX: Check path is directory...
+	if !d.execute(specinfra.CheckFileIsDirectory(d.Path)) {
+		return
+	}
+
 	d.notifyApply()
 	d.run(specinfra.RemoveFile(d.Path))
 }
 
 func (d *Directory) DryRun() {
 	for _, action := range d.Action {
-		if action == "create" || action == "delete" {
+		if action == "create" {
 			d.notifyApply()
+		} else if action == "delete" {
+			if d.execute(specinfra.CheckFileIsDirectory(d.Path)) {
+				d.notifyApply()
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@ func Git(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	git := resource.Git{
 		Destination: args[0].String(),
 	}
-	git.Destination = "git[" + git.Destination + "]"
+	git.Resource = "git[" + git.Destination + "]"
 
 	parser := utils.NewAttributeParser(mrb)
 	parser.SetDefaultString("action", "sync")

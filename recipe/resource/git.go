@@ -1,7 +1,9 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
+	"fmt"
+
+	"github.com/k0kubun/itamae-go/specinfra"
 )
 
 type Git struct {
@@ -21,13 +23,25 @@ func (g *Git) Apply() {
 }
 
 func (g *Git) actionSync() {
-	logger.Debug("git[" + g.Destination + "] will not change")
+	if g.execute(specinfra.CheckFileIsDirectory(g.Destination)) {
+		return
+	}
+
+	g.notifyApply()
+	cmd := "git clone "
+	if g.Recursive == "true" {
+		cmd += "--recursive "
+	}
+	cmd = fmt.Sprintf("%s %s %s", cmd, g.Repository, g.Destination)
+	g.run(cmd)
 }
 
 func (g *Git) DryRun() {
 	for _, action := range g.Action {
 		if action == "sync" {
-			g.notifyApply()
+			if !g.execute(specinfra.CheckFileIsDirectory(g.Destination)) {
+				g.notifyApply()
+			}
 		}
 	}
 }

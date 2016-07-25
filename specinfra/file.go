@@ -11,3 +11,7 @@ func CreateAsDirectory(file string) string {
 func RemoveFile(file string) string {
 	return fmt.Sprintf("rm -rf %s", file)
 }
+
+func CheckFileIsDirectory(file string) string {
+	return fmt.Sprintf("test -d %s", file)
+}
