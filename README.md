@@ -7,6 +7,58 @@ You can write a configuration recipe in Ruby and apply it without Ruby.
 
 Experimental. Internal architecture is poor and many features are omitted or not tested.
 
+## Synopsis
+
+Like original [itamae](https://github.com/itamae-kitchen/itamae), you can manage configuration by Ruby DSL. But itamae-go does not require Ruby to run.
+
+```rb
+# cat recipe.rb
+include_recipe 'included.rb'
+
+directory '/tmp/etc'
+
+3.times do |i|
+  file "/tmp/etc/#{i}"
+end
+
+template '/tmp/etc/config.yml' do
+  source 'config.yml.erb'
+end
+```
+
+```rb
+# cat included.rb
+define :vim, options: '--with-lua --with-luajit' do
+  ver  = params[:name]
+  opts = params[:options]
+  package 'vim' do
+    version ver
+    options opts
+  end
+end
+
+vim '7.4.1910-1'
+
+service 'mysqld' do
+  action [:start, :enable]
+end
+```
+
+```bash
+# ./itamae-go local -j node.json recipe.rb
+ INFO : Starting itamae...
+ INFO : Recipe: recipe.rb
+ INFO :   Recipe: included.rb
+ INFO : package[vim] executed will change from 'false' to 'true'
+ INFO : service[mysqld] executed will change from 'false' to 'true'
+ INFO : service[mysqld] executed will change from 'false' to 'true'
+ INFO : directory[/tmp/etc] executed will change from 'false' to 'true'
+ INFO : file[/tmp/etc/0] executed will change from 'false' to 'true'
+ INFO : file[/tmp/etc/1] executed will change from 'false' to 'true'
+ INFO : file[/tmp/etc/2] executed will change from 'false' to 'true'
+ INFO : file[/tmp/etc/config.yml] executed will change from 'false' to 'true'
+```
+
 ## How to write recipes
 
 See [itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).

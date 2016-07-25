@@ -5,6 +5,7 @@ import (
 	"log"
 	"path/filepath"
 
+	"github.com/k0kubun/itamae-go/logger"
 	"github.com/k0kubun/itamae-go/recipe/resource/utils"
 	"github.com/mitchellh/go-mruby"
 )
@@ -22,6 +23,7 @@ func IncludeRecipe(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Val
 }
 
 func loadRecipe(mrb *mruby.Mrb, path string) {
+	logger.Info("Recipe: " + path)
 	buf, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)

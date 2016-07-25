@@ -32,10 +32,7 @@ func (c *LocalCommand) Run(args []string) int {
 
 	context.LoadJson(c.nodeJson)
 	for _, file := range c.recipes {
-		logger.Info("Recipe: " + file)
-		logger.WithIndent(func() {
-			context.LoadRecipe(file)
-		})
+		context.LoadRecipe(file)
 	}
 
 	if c.dryRun {
