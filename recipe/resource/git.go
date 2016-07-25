@@ -13,9 +13,21 @@ type Git struct {
 }
 
 func (g *Git) Apply() {
+	for _, action := range g.Action {
+		if action == "sync" {
+			g.actionSync()
+		}
+	}
+}
+
+func (g *Git) actionSync() {
 	logger.Debug("git[" + g.Destination + "] will not change")
 }
 
 func (g *Git) DryRun() {
-	g.notifyApply()
+	for _, action := range g.Action {
+		if action == "sync" {
+			g.notifyApply()
+		}
+	}
 }

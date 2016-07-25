@@ -12,6 +12,14 @@ type Execute struct {
 }
 
 func (e *Execute) Apply() {
+	for _, action := range e.Action {
+		if action == "run" {
+			e.actionRun()
+		}
+	}
+}
+
+func (e *Execute) actionRun() {
 	e.notifyApply()
 	if !e.execute(e.Command) {
 		logger.Error(e.Resource + " Failed.")
@@ -20,5 +28,9 @@ func (e *Execute) Apply() {
 }
 
 func (e *Execute) DryRun() {
-	e.notifyApply()
+	for _, action := range e.Action {
+		if action == "run" {
+			e.notifyApply()
+		}
+	}
 }
