@@ -1,11 +1,5 @@
 package resource
 
-import (
-	"os"
-
-	"github.com/k0kubun/itamae-go/logger"
-)
-
 type Execute struct {
 	Base
 	Command string
@@ -21,10 +15,7 @@ func (e *Execute) Apply() {
 
 func (e *Execute) actionRun() {
 	e.notifyApply()
-	if !e.execute(e.Command) {
-		logger.Error(e.Resource + " Failed.")
-		os.Exit(1)
-	}
+	e.run(e.Command)
 }
 
 func (e *Execute) DryRun() {

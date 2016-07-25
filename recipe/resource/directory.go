@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
+	"github.com/k0kubun/itamae-go/specinfra"
 )
 
 type Directory struct {
@@ -23,11 +23,15 @@ func (d *Directory) Apply() {
 }
 
 func (d *Directory) actionCreate() {
-	logger.Debug("directory[" + d.Path + "] exist will change from 'false' to 'true'")
+	// XXX: Consider mode, owner, group...
+	d.notifyApply()
+	d.run(specinfra.CreateAsDirectory(d.Path))
 }
 
 func (d *Directory) actionDelete() {
-	logger.Debug("directory[" + d.Path + "] exist will change from 'false' to 'true'")
+	// XXX: Check path is directory...
+	d.notifyApply()
+	d.run(specinfra.RemoveFile(d.Path))
 }
 
 func (d *Directory) DryRun() {

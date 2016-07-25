@@ -43,7 +43,7 @@ func (b *Base) execute(str string) bool {
 func (b *Base) run(str string) {
 	result := b.execute(str)
 	if !result {
-		logger.Error("Command `" + str + "` failed.")
+		logger.Error("Command `" + str + "` Failed.")
 		os.Exit(1)
 	}
 }
