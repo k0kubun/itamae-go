@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
+	"github.com/k0kubun/itamae-go/specinfra"
 )
 
 type Link struct {
@@ -13,19 +13,20 @@ type Link struct {
 
 func (l *Link) Apply() {
 	for _, action := range l.Action {
-		if action == "run" {
+		if action == "create" {
 			l.actionCreate()
 		}
 	}
 }
 
 func (l *Link) actionCreate() {
-	logger.Debug("link[" + l.Link + "] will not change")
+	l.notifyApply()
+	l.run(specinfra.LinkFileTo(l.Link, l.To, l.Force == "true"))
 }
 
 func (l *Link) DryRun() {
 	for _, action := range l.Action {
-		if action == "run" {
+		if action == "create" {
 			l.notifyApply()
 		}
 	}

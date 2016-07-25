@@ -28,6 +28,7 @@ func Link(mrb *mruby.Mrb, self *mruby.MrbValue) (mruby.Value, mruby.Value) {
 	link.OnlyIf = parser.GetString("only_if")
 	link.NotIf = parser.GetString("not_if")
 	link.To = parser.GetString("to")
+	// XXX: this should not be string
 	link.Force = parser.GetString("force")
 
 	resource.Register(&link)

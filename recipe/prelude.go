@@ -123,6 +123,7 @@ func defineResourceEvalContext(mrb *mruby.Mrb) {
 				revision
 				recursive
 				to
+				force
 			]
 
 		  def initialize(*)
