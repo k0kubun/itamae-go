@@ -5,7 +5,7 @@ You can write a configuration recipe in Ruby and apply it without Ruby.
 
 ## Status
 
-Experimental. Internal architecture is poor and some features are omitted.
+Experimental. Internal architecture is poor and many features are omitted or not tested.
 
 ## How to write recipes
 
@@ -23,7 +23,7 @@ You can use only the features listed below.
   - [x] file resource
   - [x] template resource
   - [x] link resource
-  - [ ] service resource
+  - [x] service resource
   - [ ] user resource
   - [ ] group resource
   - [ ] remote\_file resource

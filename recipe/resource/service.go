@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
+	"github.com/k0kubun/itamae-go/specinfra"
 )
 
 type Service struct {
@@ -16,10 +16,6 @@ func (s *Service) Apply() {
 			s.actionStart()
 		} else if action == "stop" {
 			s.actionStop()
-		} else if action == "restart" {
-			s.actionRestart()
-		} else if action == "reload" {
-			s.actionReload()
 		} else if action == "enable" {
 			s.actionEnable()
 		} else if action == "disable" {
@@ -29,17 +25,23 @@ func (s *Service) Apply() {
 }
 
 func (s *Service) actionStart() {
-	logger.Debug("file[" + s.Name + "] will not change")
+	s.notifyApply()
+	s.run(specinfra.StartService(s.Name))
 }
+
 func (s *Service) actionStop() {
+	s.notifyApply()
+	s.run(specinfra.StopService(s.Name))
 }
-func (s *Service) actionRestart() {
-}
-func (s *Service) actionReload() {
-}
+
 func (s *Service) actionEnable() {
+	s.notifyApply()
+	s.run(specinfra.EnableService(s.Name))
 }
+
 func (s *Service) actionDisable() {
+	s.notifyApply()
+	s.run(specinfra.DisableService(s.Name))
 }
 
 func (s *Service) DryRun() {
@@ -47,10 +49,6 @@ func (s *Service) DryRun() {
 		if action == "start" {
 			s.notifyApply()
 		} else if action == "stop" {
-			s.notifyApply()
-		} else if action == "restart" {
-			s.notifyApply()
-		} else if action == "reload" {
 			s.notifyApply()
 		} else if action == "enable" {
 			s.notifyApply()
