@@ -16,7 +16,5 @@ func (l *Link) Apply() {
 }
 
 func (l *Link) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(l.Resource + " executed will change from 'false' to 'true'")
-	})
+	l.notifyApply()
 }

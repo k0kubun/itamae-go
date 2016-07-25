@@ -15,7 +15,5 @@ func (s *Service) Apply() {
 }
 
 func (s *Service) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(s.Resource + " executed will change from 'false' to 'true'")
-	})
+	s.notifyApply()
 }

@@ -25,7 +25,5 @@ func (p *Package) Apply() {
 }
 
 func (p *Package) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(p.Resource + " executed will change from 'false' to 'true'")
-	})
+	p.notifyApply()
 }

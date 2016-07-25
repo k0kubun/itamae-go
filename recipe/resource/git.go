@@ -17,7 +17,5 @@ func (g *Git) Apply() {
 }
 
 func (g *Git) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(g.Resource + " executed will change from 'false' to 'true'")
-	})
+	g.notifyApply()
 }

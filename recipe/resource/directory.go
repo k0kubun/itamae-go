@@ -17,7 +17,5 @@ func (d *Directory) Apply() {
 }
 
 func (d *Directory) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(d.Resource + " executed will change from 'false' to 'true'")
-	})
+	d.notifyApply()
 }

@@ -19,7 +19,5 @@ func (r *RemoteFile) Apply() {
 }
 
 func (r *RemoteFile) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(r.Resource + " executed will change from 'false' to 'true'")
-	})
+	r.notifyApply()
 }

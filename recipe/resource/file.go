@@ -18,7 +18,5 @@ func (f *File) Apply() {
 }
 
 func (f *File) DryRun() {
-	logger.Color(logger.Green, func() {
-		logger.Info(f.Resource + " executed will change from 'false' to 'true'")
-	})
+	f.notifyApply()
 }
