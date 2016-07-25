@@ -10,7 +10,7 @@ func CheckPackageIsInstalled(name string, version string) string {
 	case "arch":
 		return fmt.Sprintf("pacman -Q %s || pacman -Qg %s", name, name)
 	case "darwin":
-		return fmt.Sprintf("brew list || grep %s", name)
+		return fmt.Sprintf("brew list | grep %s", name)
 	case "debian":
 		return fmt.Sprintf("dpkg-query -f '${Status}' -W %s | grep -E '^(install|hold) ok installed$'", name)
 	default:
