@@ -2,6 +2,7 @@ package resource
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/k0kubun/itamae-go/logger"
 	"github.com/k0kubun/itamae-go/recipe/resource/utils"
@@ -37,6 +38,14 @@ func (b *Base) execute(str string) bool {
 		str = fmt.Sprintf("sudo -H -u %s -- /bin/sh -c '%s'", b.User, str)
 	}
 	return utils.Execute(str)
+}
+
+func (b *Base) run(str string) {
+	result := b.execute(str)
+	if !result {
+		logger.Error("Command `" + str + "` failed.")
+		os.Exit(1)
+	}
 }
 
 func (b *Base) notifyApply() {

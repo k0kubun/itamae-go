@@ -17,7 +17,7 @@ You can use only the features listed below.
 
 - Resources
   - [x] execute resource
-  - [ ] package resource
+  - [x] package resource
   - [ ] directory resource
   - [ ] git resource
   - [ ] file resource

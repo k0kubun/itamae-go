@@ -1,7 +1,6 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/recipe/resource/utils"
 	"github.com/k0kubun/itamae-go/specinfra"
 )
 
@@ -23,22 +22,29 @@ func (p *Package) Apply() {
 }
 
 func (p *Package) actionInstall() {
-	// XXX: Check version...
 	if !p.execute(specinfra.CheckPackageIsInstalled(p.Name, p.Version)) {
 		p.notifyApply()
-		utils.Run(specinfra.Install(p.Name, p.Version, p.Options))
+		p.run(specinfra.Install(p.Name, p.Version, p.Options))
 	}
 }
 
 func (p *Package) actionRemove() {
+	if p.execute(specinfra.CheckPackageIsInstalled(p.Name, p.Version)) {
+		p.notifyApply()
+		p.run(specinfra.Remove(p.Name, p.Options))
+	}
 }
 
 func (p *Package) DryRun() {
 	for _, action := range p.Action {
 		if action == "install" {
-			p.notifyApply()
+			if !p.execute(specinfra.CheckPackageIsInstalled(p.Name, p.Version)) {
+				p.notifyApply()
+			}
 		} else if action == "remove" {
-			p.notifyApply()
+			if p.execute(specinfra.CheckPackageIsInstalled(p.Name, p.Version)) {
+				p.notifyApply()
+			}
 		}
 	}
 }
