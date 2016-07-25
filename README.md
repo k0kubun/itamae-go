@@ -59,6 +59,16 @@ end
  INFO : file[/tmp/etc/config.yml] executed will change from 'false' to 'true'
 ```
 
+## Installation
+
+You can download itamae-go binary from [Releases](https://github.com/k0kubun/itamae-go/releases) for OSX and Linux.
+
+### Build
+
+```
+$ make
+```
+
 ## How to write recipes
 
 See [itamae's reference](https://github.com/itamae-kitchen/itamae/wiki).
