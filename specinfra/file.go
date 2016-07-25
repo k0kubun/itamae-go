@@ -12,6 +12,10 @@ func RemoveFile(file string) string {
 	return fmt.Sprintf("rm -rf %s", file)
 }
 
+func CheckFileIsFile(file string) string {
+	return fmt.Sprintf("test -f %s", file)
+}
+
 func CheckFileIsDirectory(file string) string {
 	return fmt.Sprintf("test -d %s", file)
 }

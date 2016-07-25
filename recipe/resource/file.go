@@ -1,7 +1,9 @@
 package resource
 
 import (
-	"github.com/k0kubun/itamae-go/logger"
+	"io/ioutil"
+
+	"github.com/k0kubun/itamae-go/specinfra"
 )
 
 type File struct {
@@ -26,15 +28,24 @@ func (f *File) Apply() {
 }
 
 func (f *File) actionCreate() {
-	logger.Debug("file[" + f.Path + "] will not change")
+	// XXX: Consider mode, owner, group
+	f.notifyApply()
+	ioutil.WriteFile(f.Path, []byte(f.Content), 0644)
 }
 
 func (f *File) actionDelete() {
-	logger.Debug("file[" + f.Path + "] will not change")
+	if !f.execute(specinfra.CheckFileIsFile(f.Path)) {
+		return
+	}
+
+	f.notifyApply()
+	f.run(specinfra.RemoveFile(f.Path))
 }
 
 func (f *File) actionEdit() {
-	logger.Debug("file[" + f.Path + "] will not change")
+	// XXX: Consider mode, owner, group
+	f.notifyApply()
+	ioutil.WriteFile(f.Path, []byte(f.Content), 0644)
 }
 
 func (f *File) DryRun() {
@@ -42,7 +53,9 @@ func (f *File) DryRun() {
 		if action == "create" {
 			f.notifyApply()
 		} else if action == "delete" {
-			f.notifyApply()
+			if f.execute(specinfra.CheckFileIsFile(f.Path)) {
+				f.notifyApply()
+			}
 		} else if action == "edit" {
 			f.notifyApply()
 		}
