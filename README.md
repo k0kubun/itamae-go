@@ -7,7 +7,7 @@ You can write a configuration recipe in Ruby and apply it without Ruby.
 
 Experimental. Internal architecture is poor and many features are omitted or not tested.
 
-Also, [itamae-mruby](https://github.com/k0kubun/itamae-mruby) is preferred for the same purpose.
+Instead of itamae-go, [mitamae](https://github.com/k0kubun/mitamae) is actively maintained.
 
 ## Synopsis
 
@@ -122,7 +122,7 @@ You can use only the features listed below.
 ## Notes
 
 Thanks to the original implementation. https://github.com/itamae-kitchen/itamae  
-There is another standalone implementation of itamae. https://github.com/k0kubun/itamae-mruby
+There is another standalone implementation of itamae. https://github.com/k0kubun/mitamae
 
 ## Author
 
